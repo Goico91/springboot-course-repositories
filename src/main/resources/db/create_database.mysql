@@ -1,0 +1,96 @@
+-- Create database
+create database if not exists springboot_course_db;
+use springboot_course_db;
+
+-- Table Office
+create table office (
+	id_office int not null auto_increment,
+    name varchar(150) not null,
+    country varchar(150) not null,
+    primary key (id_office)
+);
+
+-- Table Knowledge
+create table knowledge (
+	id_knowledge bigint(20) not null auto_increment,
+    name varchar(250) not null,
+    primary key (id_knowledge)
+);
+
+-- Table Employee
+create table employee (
+	id_employee bigint(20) not null auto_increment,
+    name varchar(50) not null,
+    surname varchar(150) not null,
+    password varchar(250) default null,
+    age int not null,
+    employee_office int not null,
+
+    primary key (id_employee),
+    index (employee_office),
+
+	foreign key (employee_office) references office(id_office)
+);
+
+-- Table Employee_Knowledge
+create table employee_knowledge (
+	id_employee bigint(20) not null,
+    id_knowledge bigint(20) not null,
+    years_experience int default null,
+    level varchar(150) default null,
+
+	primary key (id_employee, id_knowledge),
+
+	foreign key (id_employee) references employee(id_employee),
+    foreign key (id_knowledge) references knowledge(id_knowledge)
+);
+
+
+-- Insert Offices
+insert into office (name, country) values ('Asturias', 'Spain');
+insert into office (name, country) values ('Barcelona', 'Spain');
+insert into office (name, country) values ('Madrid', 'Spain');
+insert into office (name, country) values ('Sevilla', 'Spain');
+insert into office (name, country) values ('Tres Cantos', 'Spain');
+
+-- Insert Knowledges
+insert into knowledge (name) values ('java');
+insert into knowledge (name) values ('spring');
+insert into knowledge (name) values ('spring boot');
+insert into knowledge (name) values ('nodeJs');
+insert into knowledge (name) values ('ReactJs');
+insert into knowledge (name) values ('AngularJs');
+insert into knowledge (name) values ('Ionic');
+
+-- Insert Employees
+insert into employee (name, surname, password, age, employee_office)
+ values('Adams', 'Usman', '12345678', 20, 1);
+insert into employee (name, surname, password, age, employee_office)
+ values('Baker', 'Hills', '87654321', 22, 2);
+insert into employee (name, surname, password, age, employee_office)
+ values('Clark', 'Irwin', '18273645', 26, 3);
+insert into employee (name, surname, password, age, employee_office)
+ values('Davis', 'Jones', '54637181', 30, 4);
+insert into employee (name, surname, password, age, employee_office)
+ values('Evans', 'Klein', '19283745', 34, 1);
+insert into employee (name, surname, password, age, employee_office)
+ values('Frank', 'Mason', '19827432', 38, 5);
+ 
+-- Insert Employees_Knowledge
+insert into employee_knowledge values (1, 1, 3, 'low');
+insert into employee_knowledge values (1, 2, 3, 'medium');
+insert into employee_knowledge values (1, 4, 3, 'high');
+insert into employee_knowledge values (2, 6, 3, 'medium');
+insert into employee_knowledge values (2, 5, 3, 'high');
+insert into employee_knowledge values (2, 7, 3, 'low');
+insert into employee_knowledge values (3, 1, 3, 'low');
+insert into employee_knowledge values (3, 2, 3, 'medium');
+insert into employee_knowledge values (3, 3, 3, 'medium');
+insert into employee_knowledge values (4, 5, 3, 'high');
+insert into employee_knowledge values (4, 7, 3, 'high');
+insert into employee_knowledge values (5, 1, 3, 'medium');
+insert into employee_knowledge values (5, 3, 3, 'medium');
+insert into employee_knowledge values (6, 1, 3, 'basic');
+insert into employee_knowledge values (6, 2, 3, 'basic');
+insert into employee_knowledge values (6, 3, 3, 'medium');
+insert into employee_knowledge values (6, 6, 3, 'medium');

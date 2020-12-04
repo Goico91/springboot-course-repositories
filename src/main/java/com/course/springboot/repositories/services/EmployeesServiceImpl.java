@@ -2,14 +2,17 @@ package com.course.springboot.repositories.services;
 
 import com.course.springboot.repositories.commons.enums.RestExceptionE;
 import com.course.springboot.repositories.config.error.RestException;
+import com.course.springboot.repositories.repositories.EmployeeKnowledgeRepository;
+import com.course.springboot.repositories.repositories.EmployeesRepository;
 import com.course.springboot.repositories.vo.Employee;
+import com.course.springboot.repositories.vo.EmployeeKnowledge;
+import com.course.springboot.repositories.vo.EmployeeKnowledgeKey;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service for Employees
@@ -17,76 +20,64 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeesServiceImpl implements EmployeesService{
 
-    private final List<Employee> employees = new ArrayList<>();
+    @Autowired
+    private EmployeesRepository employeesRepository;
 
-    public EmployeesServiceImpl() {
-        employees.add(new Employee(0, "Adams", "Usman", "12345678", 20, "intern", Arrays.asList("java", "spring", "node")));
-        employees.add(new Employee(1, "Baker", "Hills", "87654321", 22, "intern", Arrays.asList("angular", "react", "ionic")));
-        employees.add(new Employee(2, "Clark", "Irwin", "18273645", 26, "developer", Arrays.asList("java", "spring", "spring boot")));
-        employees.add(new Employee(3, "Davis", "Jones", "54637181", 30, "developer", Arrays.asList("react", "ionic")));
-        employees.add(new Employee(4, "Evans", "Klein", "19283745", 34, "senior developer", Arrays.asList("java", "spring boot")));
-        employees.add(new Employee(5, "Frank", "Mason", "19827432", 38, "development project leader", Arrays.asList("java", "spring", "spring boot", "angular")));
-    }
+    @Autowired
+    private EmployeeKnowledgeRepository employeeKnowledgeRepository;
 
     @Override
     public List<Employee> getEmployees(String name) {
-        List<Employee> employeesAux = employees;
-
-        if(name != null && !"".equals(name)) {
-            employeesAux = employees.stream().filter(employee -> name.equals(employee.getName())).collect(Collectors.toList());
-        }
-
-        return employeesAux;
+        return employeesRepository.findAll();
     }
 
     @Override
-    public Employee getEmployee(int id) {
-        return employees.stream().filter(employee -> employee.getId() == id).findFirst().orElse(null);
+    public Employee getEmployee(int id) throws RestException {
+        Optional<Employee> employee = employeesRepository.findById(id);
+        if(!employee.isPresent()) {
+            throw new RestException(RestExceptionE.ERROR_EMPLOYEE_NOT_FOUND);
+        }
+        return employee.get();
     }
 
+    @Transactional
     @Override
     public void createEmployee(Employee newEmployee) throws RestException {
-        Employee employeeDB = employees.stream().filter(employee -> newEmployee.getName().equals(employee.getName()) && newEmployee.getSurname().equals(employee.getSurname())).findFirst().orElse(null);
+        Employee employeeDB = employeesRepository.findEmployeeByNameAndSurname(newEmployee.getName(), newEmployee.getSurname());
 
         if (employeeDB != null) {
             throw new RestException(RestExceptionE.ERROR_EMPLOYEE_ALREADY_EXISTS);
         }
 
-        int id = 0;
-        Optional<Employee> lastEmployee = employees.stream().skip(employees.size()-1L).findFirst();
-        if(lastEmployee.isPresent()) {
-            id = lastEmployee.get().getId() + 1;
-        }
+        // Save Employee
+        newEmployee = employeesRepository.save(newEmployee);
 
-        newEmployee.setId(id);
-        employees.add(newEmployee);
+        // Update Knowledge
+        for(EmployeeKnowledge employeeKnowledge : newEmployee.getEmployeeKnowledge()){
+            employeeKnowledge.setId(new EmployeeKnowledgeKey(newEmployee.getId(), employeeKnowledge.getKnowledge().getId()));
+            employeeKnowledge.setEmployee(newEmployee);
+
+            employeeKnowledgeRepository.save(employeeKnowledge);
+        }
     }
 
     @Override
     public void updateEmployee(int id, Employee employeeUp) throws RestException {
-        Employee employeeDB = this.getEmployee(id);
-        if (employeeDB == null) {
-            throw new RestException(RestExceptionE.ERROR_EMPLOYEE_NOT_FOUND);
-        }
+        Employee employeeDB = getEmployee(id);
 
         // Update employee
-        employeeDB.setName(employeeUp.getName());
-        employeeDB.setSurname(employeeUp.getSurname());
-
+        if(!"".equals(employeeUp.getName()))
+            employeeDB.setName(employeeUp.getName());
+        if(!"".equals(employeeUp.getSurname()))
+            employeeDB.setSurname(employeeUp.getSurname());
         if(employeeUp.getAge() != null)
             employeeDB.setAge(employeeUp.getAge());
 
-        if(employeeUp.getRol() != null)
-            employeeDB.setRol(employeeUp.getRol());
+        employeesRepository.save(employeeDB);
     }
 
     @Override
     public void deleteEmployee(int id) throws RestException {
-        Employee employeeDB = this.getEmployee(id);
-        if (employeeDB == null) {
-            throw new RestException(RestExceptionE.ERROR_EMPLOYEE_NOT_FOUND);
-        }
-
-        employees.removeIf(employee -> employee.getId() == id);
+        employeesRepository.delete(getEmployee(id));
     }
 }

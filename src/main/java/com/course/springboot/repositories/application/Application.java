@@ -4,13 +4,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @SpringBootApplication(scanBasePackages = {"com.course.springboot.repositories"})
+@EntityScan("com.course.springboot.repositories")
+@EnableJpaRepositories("com.course.springboot.repositories")
 public class Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);

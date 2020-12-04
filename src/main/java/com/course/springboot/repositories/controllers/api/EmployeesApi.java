@@ -20,7 +20,7 @@ public interface EmployeesApi {
     ResponseEntity<List<ListEmployeesDTO>> getEmployees(@RequestParam(required = false) String name);
 
     @GetMapping(ConstantsUrl.ID)
-    ResponseEntity<EmployeeDTO> getEmployee(@PathVariable int id);
+    ResponseEntity<EmployeeDTO> getEmployee(@PathVariable int id) throws RestException;
 
     @PostMapping
     ResponseEntity<Void> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) throws RestException;

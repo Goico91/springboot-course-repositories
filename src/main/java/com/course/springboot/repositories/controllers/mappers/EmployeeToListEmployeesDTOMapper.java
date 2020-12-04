@@ -13,7 +13,7 @@ public interface EmployeeToListEmployeesDTOMapper {
 
     EmployeeToListEmployeesDTOMapper INSTANCE = Mappers.getMapper(EmployeeToListEmployeesDTOMapper.class);
 
-    @Mapping( target = "idEmployee", source = "id")
+    @Mapping(target = "idEmployee", source = "id")
     ListEmployeesDTO employeeToListEmployeeDTO(Employee employee);
 
     List<ListEmployeesDTO> employeeToListEmployeesDTO(List<Employee> employee);

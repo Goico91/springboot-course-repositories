@@ -9,7 +9,7 @@ public interface EmployeesService {
 
     List<Employee> getEmployees(String name);
 
-    Employee getEmployee(int id);
+    Employee getEmployee(int id) throws RestException;
 
     void createEmployee(Employee employee) throws RestException;
 

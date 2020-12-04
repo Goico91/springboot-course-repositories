@@ -14,3 +14,8 @@ server:
 spring:
   profiles:
     active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:33060/springboot_course_db
+    username: root
+    password: secret

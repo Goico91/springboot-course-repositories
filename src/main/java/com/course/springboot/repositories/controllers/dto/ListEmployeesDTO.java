@@ -1,7 +1,8 @@
 package com.course.springboot.repositories.controllers.dto;
 
+import com.course.springboot.repositories.vo.Office;
+
 import java.io.Serializable;
-import java.util.List;
 
 public class ListEmployeesDTO implements Serializable {
     private int idEmployee;
@@ -10,7 +11,9 @@ public class ListEmployeesDTO implements Serializable {
 
     private String surname;
 
-    private List<String> knowledge;
+    private Integer age;
+
+    private Office office;
 
     public int getIdEmployee() {
         return idEmployee;
@@ -36,11 +39,19 @@ public class ListEmployeesDTO implements Serializable {
         this.surname = surname;
     }
 
-    public List<String> getKnowledge() {
-        return knowledge;
+    public Integer getAge() {
+        return age;
     }
 
-    public void setKnowledge(List<String> knowledge) {
-        this.knowledge = knowledge;
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Office getOffice() {
+        return office;
+    }
+
+    public void setOffice(Office office) {
+        this.office = office;
     }
 }

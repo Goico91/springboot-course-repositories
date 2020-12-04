@@ -1,5 +1,7 @@
 package com.course.springboot.repositories.controllers.dto;
 
+import com.course.springboot.repositories.vo.Office;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.List;
@@ -19,21 +21,12 @@ public class EmployeeDTO implements Serializable {
     @Max(value = 100, message = "Max age is 100 years")
     private Integer age;
 
-    @Pattern(regexp = "[a-zA-Z]+")
-    private String rol;
+    @NotNull(message = "Office can not be null")
+    private Office office;
 
-    private List<String> knowledge;
+    private List<EmployeeKnowledgeDTO> employeeKnowledge;
 
     public EmployeeDTO() {
-    }
-
-    public EmployeeDTO(String name, String surname, String password, Integer age, String rol, List<String> knowledge) {
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
-        this.age = age;
-        this.rol = rol;
-        this.knowledge = knowledge;
     }
 
     public String getName() {
@@ -68,19 +61,19 @@ public class EmployeeDTO implements Serializable {
         this.age = age;
     }
 
-    public String getRol() {
-        return rol;
+    public Office getOffice() {
+        return office;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setOffice(Office office) {
+        this.office = office;
     }
 
-    public List<String> getKnowledge() {
-        return knowledge;
+    public List<EmployeeKnowledgeDTO> getEmployeeKnowledge() {
+        return employeeKnowledge;
     }
 
-    public void setKnowledge(List<String> knowledge) {
-        this.knowledge = knowledge;
+    public void setEmployeeKnowledge(List<EmployeeKnowledgeDTO> employeeKnowledge) {
+        this.employeeKnowledge = employeeKnowledge;
     }
 }

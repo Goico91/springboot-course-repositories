@@ -5,7 +5,7 @@ import com.course.springboot.repositories.vo.Employee;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = {EmployeeKnowledgeToEmployeeKnowledgeDTO.class})
 public interface EmployeeToEmployeeDTOMapper {
 
     EmployeeToEmployeeDTOMapper INSTANCE = Mappers.getMapper(EmployeeToEmployeeDTOMapper.class);

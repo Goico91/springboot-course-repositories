@@ -1,41 +1,54 @@
 package com.course.springboot.repositories.vo;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
+@Entity
+@Table(name = "employee")
 public class Employee implements Serializable {
-    private int id;
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id_employee")
+    private Integer id;
+
+    @NotNull
+    @Column(name = "name", length = 50)
+    @Size(max = 50)
     private String name;
 
+    @NotNull
+    @Column(name = "surname", length = 150)
+    @Size(max = 150)
     private String surname;
 
+    @Column(name = "password", length = 250)
+    @Size(max = 250)
     private String password;
 
+    @NotNull
+    @Column(name = "age")
     private Integer age;
 
-    private String rol;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "employee_office")
+    private Office office;
 
-    private List<String> knowledge;
+    @OneToMany(mappedBy = "knowledge")
+    private List<EmployeeKnowledge> employeeKnowledge;
 
     public Employee() {
     }
 
-    public Employee(int id, String name, String surname, String password, Integer age, String rol, List<String> knowledge) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
-        this.age = age;
-        this.rol = rol;
-        this.knowledge = knowledge;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -71,19 +84,19 @@ public class Employee implements Serializable {
         this.age = age;
     }
 
-    public String getRol() {
-        return rol;
+    public Office getOffice() {
+        return office;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setOffice(Office office) {
+        this.office = office;
     }
 
-    public List<String> getKnowledge() {
-        return knowledge;
+    public List<EmployeeKnowledge> getEmployeeKnowledge() {
+        return employeeKnowledge;
     }
 
-    public void setKnowledge(List<String> knowledge) {
-        this.knowledge = knowledge;
+    public void setEmployeeKnowledge(List<EmployeeKnowledge> employeeKnowledge) {
+        this.employeeKnowledge = employeeKnowledge;
     }
 }

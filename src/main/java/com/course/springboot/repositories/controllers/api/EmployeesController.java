@@ -32,7 +32,7 @@ public class EmployeesController implements EmployeesApi {
     }
 
     @Override
-    public ResponseEntity<EmployeeDTO> getEmployee(int id) {
+    public ResponseEntity<EmployeeDTO> getEmployee(int id) throws RestException {
         // Search for employee
         Employee employeeAux = employeesService.getEmployee(id);
 
