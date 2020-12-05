@@ -75,6 +75,8 @@ public class EmployeesServiceImpl implements EmployeesService{
             employeeDB.setSurname(employeeUp.getSurname());
         if(employeeUp.getAge() != null)
             employeeDB.setAge(employeeUp.getAge());
+        if(employeeUp.getOffice() != null)
+            employeeDB.setOffice(employeeUp.getOffice());
 
         employeesRepository.save(employeeDB);
     }
