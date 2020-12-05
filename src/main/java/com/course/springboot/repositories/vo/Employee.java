@@ -38,7 +38,7 @@ public class Employee implements Serializable {
     @JoinColumn(name = "employee_office")
     private Office office;
 
-    @OneToMany(mappedBy = "knowledge")
+    @OneToMany(mappedBy = "employee")
     private List<EmployeeKnowledge> employeeKnowledge;
 
     public Employee() {

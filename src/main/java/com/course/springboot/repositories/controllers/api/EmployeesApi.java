@@ -4,6 +4,7 @@ import com.course.springboot.repositories.commons.ConstantsUrl;
 import com.course.springboot.repositories.config.error.RestException;
 import com.course.springboot.repositories.controllers.dto.EmployeeDTO;
 import com.course.springboot.repositories.controllers.dto.ListEmployeesDTO;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,10 @@ import java.util.List;
 public interface EmployeesApi {
 
     @GetMapping
-    ResponseEntity<List<ListEmployeesDTO>> getEmployees(@RequestParam(required = false) String name);
+    ResponseEntity<List<ListEmployeesDTO>> getEmployees(@RequestParam(required = false) String name,
+                                                        @RequestParam(required = false) String surname,
+                                                        @RequestParam(required = false) Integer office,
+                                                        Pageable pageable);
 
     @GetMapping(ConstantsUrl.ID)
     ResponseEntity<EmployeeDTO> getEmployee(@PathVariable int id) throws RestException;

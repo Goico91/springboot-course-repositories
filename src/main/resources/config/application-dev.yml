@@ -19,3 +19,5 @@ spring:
     url: jdbc:mysql://localhost:33060/springboot_course_db
     username: root
     password: secret
+  jpa:
+    show-sql: true

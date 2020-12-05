@@ -8,6 +8,8 @@ import com.course.springboot.repositories.vo.Employee;
 import com.course.springboot.repositories.vo.EmployeeKnowledge;
 import com.course.springboot.repositories.vo.EmployeeKnowledgeKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +29,9 @@ public class EmployeesServiceImpl implements EmployeesService{
     private EmployeeKnowledgeRepository employeeKnowledgeRepository;
 
     @Override
-    public List<Employee> getEmployees(String name) {
-        return employeesRepository.findAll();
+    public List<Employee> getEmployees(String name, String surname, Integer office, Pageable pageable) {
+        Page<Employee> employeePage = employeesRepository.findEmployeesByFilter(name, surname, office, pageable);
+        return employeePage.getContent();
     }
 
     @Override

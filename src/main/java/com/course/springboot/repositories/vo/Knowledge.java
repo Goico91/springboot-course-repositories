@@ -3,7 +3,6 @@ package com.course.springboot.repositories.vo;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "knowledge")
@@ -17,9 +16,6 @@ public class Knowledge implements Serializable {
     @Column(name = "name", length = 250)
     @NotNull
     private String name;
-
-    @OneToMany(mappedBy = "employee")
-    private List<EmployeeKnowledge> employeeKnowledge;
 
     public Knowledge() {
     }
@@ -38,13 +34,5 @@ public class Knowledge implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<EmployeeKnowledge> getEmployeeKnowledge() {
-        return employeeKnowledge;
-    }
-
-    public void setEmployeeKnowledge(List<EmployeeKnowledge> employeeKnowledge) {
-        this.employeeKnowledge = employeeKnowledge;
     }
 }
