@@ -41,7 +41,7 @@ create table employee_knowledge (
 
 	primary key (id_employee, id_knowledge),
 
-	foreign key (id_employee) references employee(id_employee),
+	foreign key (id_employee) references employee(id_employee) on delete cascade,
     foreign key (id_knowledge) references knowledge(id_knowledge)
 );
 
